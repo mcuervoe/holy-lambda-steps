@@ -1,0 +1,14 @@
+{:deps {org.clojure/clojure                  {:mvn/version "1.10.3"}
+        io.github.FieryCod/holy-lambda       {:mvn/version "0.6.6"}
+        com.github.clj-easy/graal-build-time {:mvn/version "0.1.4"}
+        com.company.lambda_steps/exceptions  {:local/root "exceptions/build/libs/exceptions-1.0.jar"}}
+
+ :paths   ["src" "resources"]
+
+ :aliases {:uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
+                     :exec-fn      hf.depstar/uberjar
+                     :exec-args    {:aot        ["com.company.lambda-steps.core"]
+                                    :main-class "com.company.lambda-steps.core"
+                                    :jar        ".holy-lambda/build/output.jar"
+                                    :jvm-opts   ["-Dclojure.compiler.direct-linking=true"
+                                                 "-Dclojure.spec.skip-macros=true"]}}}}

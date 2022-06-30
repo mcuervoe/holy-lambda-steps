@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Example basic lambda using `holy-lambda` micro library
+
+Parameters:
+  Timeout:
+    Type: Number
+    Default: 40
+  MemorySize:
+    Type: Number
+    Default: 512
+  Entrypoint:
+    Type: String
+    Default: com.company.lambda-steps.core
+
+Globals:
+  Function:
+    Timeout: !Ref Timeout
+    MemorySize: !Ref MemorySize
+    Environment:
+      Variables:
+        HL_ENTRYPOINT: !Ref Entrypoint
+
+Resources:
+  ExampleLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ExampleLambdaFunction
+      PackageType: Image
+      #Handler: com.company.lambda-steps.core.ExampleLambda
+      #CodeUri: .holy-lambda/build/latest.zip
+      # For docker based deployments use:
+      # PackageType: Image
+      # and remove Runtime + CodeUri + Handler
+    # For docker based deployments
+    Metadata:
+     Dockerfile: Dockerfile
+     DockerContext: .
+     DockerTag: v1
+
+  ExampleStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: ExampleStepFunction
+      DefinitionUri: statemachine/example.asl.json
+      DefinitionSubstitutions:
+        ExampleLambdaFunctionArn: !GetAtt ExampleLambdaFunction.Arn
+      Policies:
+        - LambdaInvokePolicy:
+            FunctionName: !Ref ExampleLambdaFunction
+

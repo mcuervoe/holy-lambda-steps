@@ -11,12 +11,14 @@
 (defn ExampleLambda
   "I can run on Java, Babashka or Native runtime..."
   [{:keys [event ctx] :as request}]
-  (let [status-code (:statusCode event)]
+  (println event)
+  (let [status-code (:statuscode event)]
+    (println "status-code=" status-code)
     (case status-code
       "429" (throw (TooManyRequestsException. "429 in status code"))
       "503" (throw (ServerUnavailableException. "503 in status code"))
       "200" (hr/text "OK")
-      :else (throw (RuntimeException. "unknown status code")))))
+      (throw (RuntimeException. "unknown status code")))))
 
 
 ;; Specify the Lambda's entry point as a static main function when generating a class file

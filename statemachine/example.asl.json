@@ -14,10 +14,10 @@
       } ],
       "Catch": [
         {
-          "ErrorEquals": ["com.company.evidences.exceptions.TooManyRequestsException"],
+          "ErrorEquals": ["com.company.lambda_steps.exceptions.TooManyRequestsException", "too-many-requests"],
           "Next": "Wait and Try Later"
         }, {
-          "ErrorEquals": ["com.company.evidences.exceptions.ServerUnavailableException"],
+          "ErrorEquals": ["com.company.lambda_steps.exceptions.ServerUnavailableException", "server-unavailable"],
           "Next": "Server Unavailable"
         }, {
           "ErrorEquals": ["States.ALL"],

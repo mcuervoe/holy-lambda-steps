@@ -16,7 +16,10 @@
     (println "status-code=" status-code)
     (case status-code
       "429" (throw (TooManyRequestsException. "429 in status code"))
+      "430" (throw (ex-info "530 in status code"{:type "too-many-requests"}))
       "503" (throw (ServerUnavailableException. "503 in status code"))
+      "504" (throw (ex-info "504 in status code"{:type "server-unavailable"}))
+      "300" (throw (ex-info "300 in status code" {}))  ; should produce error "clojure.lang.ExceptionInfo"
       "200" (hr/text "OK")
       (throw (RuntimeException. "unknown status code")))))
 

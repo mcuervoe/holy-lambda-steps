@@ -8,7 +8,7 @@
       "Next" : "OK",
       "Comment": "Catch a 429 (Too many requests) API exception, and resubmit the failed request in a rate-limiting fashion.",
       "Retry" : [ {
-        "ErrorEquals": [ "TooManyRequestsException" ],
+        "ErrorEquals": [ "com.company.lambda_steps.exceptions.TooManyRequestsException", "too-many-requests" ],
         "IntervalSeconds": 1,
         "MaxAttempts": 2
       } ],
